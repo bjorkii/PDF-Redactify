@@ -1,0 +1,100 @@
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 400;
+
+  --border-color: #d8d8d8;
+  --panel-bg: #f6f6f6;
+  --viewer-bg: #e8e8e8;
+  --muted-fg: #6b6b6b;
+  /* SIDE-05(§7.4): 포커스된 영역 테두리 색. COLOR-02(M8)에서 설정값으로 대체 예정. */
+  --focus-color: #396cd8;
+  /* BM-02(§6.2)/§7.3: 사이드바 선택 항목 하이라이트. COLOR-02에서 설정값으로 대체 예정. */
+  --selection-bg: #396cd8;
+  --selection-fg: #ffffff;
+
+  color: #0f0f0f;
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button {
+  cursor: pointer;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  padding: 0.4em 0.8em;
+  font-size: 0.9em;
+  font-family: inherit;
+  background-color: #ffffff;
+}
+
+button:hover {
+  border-color: #396cd8;
+}
+
+/* 테두리·배경 없이 아이콘만 보이는 버튼(예: 사이드바 핀 토글) — 버튼의
+   클릭 가능한 영역·접근성은 그대로 유지하되 시각적으로는 아이콘 자체만
+   보이게 한다(사용자 요청: "핀 아이콘을 버튼처럼 테두리 있는게 아니라
+   핀만 보이게"). */
+.icon-button {
+  border: none;
+  background: transparent;
+  padding: 2px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.icon-button:hover:not(:disabled) {
+  background: var(--border-color);
+}
+
+/* SIDE-05: 포커스된 영역(뷰어/사이드바/플로팅 패널)에 시인성 있는 테두리 표시. */
+.focus-region {
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+
+.focus-region:focus,
+.focus-region:focus-within {
+  outline-color: var(--focus-color);
+}
+
+/* §7.4/§8.1: 뷰어는 블랙마킹 목록(DOM상 형제라 :focus-within이 안 닿음)까지
+   포함한 도메인 전체를 기준으로 테두리를 켠다(Viewer.tsx가 JS로 추적). */
+.viewer.viewer-domain-focused {
+  outline-color: var(--focus-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border-color: #3f3f3f;
+    --panel-bg: #262626;
+    --viewer-bg: #1b1b1b;
+    --muted-fg: #9b9b9b;
+
+    color: #f6f6f6;
+    background-color: #1b1b1b;
+  }
+
+  button {
+    color: #f6f6f6;
+    background-color: #2f2f2f;
+  }
+}

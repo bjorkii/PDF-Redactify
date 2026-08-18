@@ -1,0 +1,11 @@
+# 앱 커맨드 권한(수기 작성). identifier는 kebab-case만 허용되므로 command 이름
+# (snake_case)과 별도로 관리한다.
+[[permission]]
+identifier = "allow-cancel-operation"
+description = "Enables the cancel_operation command without any pre-configured scope."
+commands.allow = ["cancel_operation"]
+
+[[permission]]
+identifier = "deny-cancel-operation"
+description = "Denies the cancel_operation command without any pre-configured scope."
+commands.deny = ["cancel_operation"]

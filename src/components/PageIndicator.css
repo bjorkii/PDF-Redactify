@@ -1,0 +1,19 @@
+.page-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  /* Toolbar.css의 flex-wrap과 함께 — 찌그러드는 대신 통째로 다음 줄로
+     넘어가야 한다(다른 툴바 버튼들과 동일한 취급). */
+  flex-shrink: 0;
+}
+
+.page-indicator input {
+  width: 3.5em;
+  text-align: center;
+}
+
+.page-indicator-total {
+  color: var(--muted-fg);
+  white-space: nowrap;
+}

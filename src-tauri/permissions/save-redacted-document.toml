@@ -1,0 +1,11 @@
+# 앱 커맨드 권한(수기 작성). identifier는 kebab-case만 허용되므로 command 이름
+# (snake_case)과 별도로 관리한다.
+[[permission]]
+identifier = "allow-save-redacted-document"
+description = "Enables the save_redacted_document command without any pre-configured scope."
+commands.allow = ["save_redacted_document"]
+
+[[permission]]
+identifier = "deny-save-redacted-document"
+description = "Denies the save_redacted_document command without any pre-configured scope."
+commands.deny = ["save_redacted_document"]

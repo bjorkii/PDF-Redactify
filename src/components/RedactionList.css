@@ -1,0 +1,254 @@
+.redaction-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.redaction-list-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* §7.4 사용자 요청: 블랙마킹 목록은 뷰어와 하나의 키보드 도메인이라 별도
+   포커스 테두리를 두지 않는다 — 목록 행/스크롤 컨테이너에 브라우저 기본
+   포커스 아웃라인(파란 줄)이 뜨지 않게 한다. 선택 강조는 .active/.selected
+   배경으로만 표현한다(뷰포트 좌우 화살표·목록 처음/마지막에서 위아래 화살표
+   때 하일라이트 위아래로 파란 줄이 생기던 문제). */
+.redaction-list-scroll:focus,
+.redaction-list-scroll:focus-visible,
+.redaction-list-row:focus,
+.redaction-list-row:focus-visible {
+  outline: none;
+}
+
+.redaction-list-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  box-sizing: border-box;
+  cursor: pointer;
+  /* LIST-10: 드래그 선택 중 행 텍스트가 브라우저 선택되지 않도록. */
+  user-select: none;
+}
+
+.redaction-list-header {
+  flex-shrink: 0;
+  height: 32px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* LIST-05(§6.4): 헤더 클릭으로 정렬 컬럼 전환. */
+.redaction-list-header .redaction-list-cell {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.redaction-list-row:not(.redaction-list-header):hover {
+  background: var(--viewer-bg);
+}
+
+/* LIST-01(§6.4): 현재 선택된 항목 강조(음영+흰 폰트, 뷰어 bbox와도 나중에 연동). */
+.redaction-list-row.active,
+.redaction-list-row.active:hover {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+/* LIST-10: 다중선택 집합에 든(활성은 아닌) 항목 — 활성보다 옅게 강조. */
+.redaction-list-row.selected:not(.active),
+.redaction-list-row.selected:not(.active):hover {
+  background: var(--selection-bg); /* color-mix 미지원 폴백 */
+  background: color-mix(in srgb, var(--selection-bg) 38%, transparent);
+}
+
+.redaction-list-cell {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.redaction-list-cell-category {
+  flex: 0 0 30%;
+}
+
+.redaction-list-cell-content {
+  flex: 1;
+}
+
+/* LIST(사용자 요청): 내용이 빈 사용자 지정 항목의 placeholder(클릭해 편집 진입). */
+.redaction-list-cell-placeholder {
+  color: var(--muted-fg);
+  font-style: italic;
+}
+
+/* LIST-13: '구분' 커스텀 드롭다운(재클릭 시 펼침·현재값 체크·hover 하이라이트). */
+.redaction-category-edit {
+  position: relative;
+  display: flex;
+  align-items: center;
+  /* 셀 기본값(.redaction-list-cell)이 overflow:hidden이라 절대배치 드롭다운이
+     32px 셀 박스에 잘려 "무반응"처럼 보였다(사용자 재현) — 여기선 넘치게 둔다. */
+  overflow: visible;
+}
+
+/* 드롭다운이 아래쪽 다른 행들 위로 그려지도록, 편집 중인 행을 위로 올린다
+   (행들은 가상화로 position:absolute라 형제 순서상 아래 행이 위에 그려진다). */
+.redaction-list-row.editing-category {
+  z-index: 5;
+}
+
+.redaction-category-current {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.redaction-category-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 60;
+  margin: 2px 0 0;
+  padding: 4px;
+  min-width: 140px;
+  max-height: 260px;
+  overflow-y: auto;
+  list-style: none;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-weight: normal;
+  /* 활성 행(흰 글씨) 안에 뜨므로 본문 색을 명시적으로 되돌린다(App.css와 동일). */
+  color: #0f0f0f;
+}
+
+.redaction-category-option {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  white-space: nowrap;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.redaction-category-option:hover {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+.redaction-category-check {
+  display: inline-block;
+  width: 1em;
+  flex-shrink: 0;
+  text-align: center;
+  color: var(--selection-bg);
+}
+
+.redaction-category-option:hover .redaction-category-check {
+  color: var(--selection-fg);
+}
+
+@media (prefers-color-scheme: dark) {
+  .redaction-category-dropdown {
+    color: #f6f6f6;
+  }
+}
+
+.redaction-list-cell-page {
+  flex: 0 0 20%;
+  text-align: right;
+}
+
+/* LIST-08: 필터가 있는 헤더 셀(구분/위치)만 정렬용 라벨과 필터 버튼을
+   나란히 둔다 — 필터 버튼/팝오버 클릭이 정렬 클릭과 안 섞이도록 별도
+   요소로 분리한다(FilterPopover.tsx 참고). 필터 아이콘을 라벨 오른쪽 끝에
+   두면(justify-content:space-between) 다음 컬럼과 붙어보여 헷갈린다는
+   재현 보고가 있어, 아이콘을 라벨 왼쪽에 바로 붙여 하나로 묶어 보이게
+   했다(DOM 순서도 버튼→라벨로 바꿈). 부모(.redaction-list-cell)의
+   overflow:hidden을 여기서 visible로 되돌리지 않으면 팝오버(절대위치,
+   셀 경계 밖으로 넘침)가 그대로 잘려서 안 보이는 채로 존재만 하는
+   상태가 된다 — '구분' 필터가 눌러도 반응 없어 보이던 원인. */
+.redaction-list-header-cell {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  position: relative;
+  overflow: visible;
+  cursor: default;
+}
+
+.redaction-list-header-cell > span {
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* LIST-15: 컬럼 경계 리사이즈 핸들(헤더 셀 overflow:visible이라 경계에 걸쳐도 안 잘림). */
+.redaction-list-column-resizer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: -3px;
+  width: 7px;
+  cursor: col-resize;
+  z-index: 3;
+}
+
+.redaction-list-column-resizer-left {
+  right: auto;
+  left: -3px;
+}
+
+.redaction-list-column-resizer:hover {
+  background: color-mix(in srgb, var(--selection-bg) 40%, transparent);
+}
+
+.redaction-list-filter-trigger {
+  flex-shrink: 0;
+  padding: 1px;
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  color: var(--muted-fg);
+}
+
+.redaction-list-filter-trigger:hover,
+.redaction-list-filter-trigger.active {
+  color: inherit;
+}
+
+.redaction-list-filter-trigger.active {
+  color: var(--focus-color);
+}
+
+/* LIST-14: '구분' 필터로 일부 카테고리를 숨긴 상태 — 아이콘을 빨강으로 경고
+   (평상시는 기본색). 검출 항목 일부가 목록·뷰어·저장에서 빠졌음을 알린다. */
+.redaction-list-filter-trigger.filter-hidden {
+  color: #e5484d;
+}
+
+/* LIST-03(§6.3.3): 셀 편집(F2/재클릭)용 드롭박스·입력창. 선택된(active) 행
+   안에서 열리는데, 그 행은 사용자가 설정한 --selection-fg(글자색)를
+   color:inherit로 물려받으면서 배경은 --panel-bg로 바뀌는 조합이라, 사용자가
+   선택 강조 글자색을 흰색 계열로 설정해두면 흰 배경에 흰 글씨가 되어 안
+   보일 수 있었다(재현 보고) — 수정 중에는 사용자 색상 설정과 무관하게
+   항상 읽을 수 있도록 흰 배경/검은 글씨로 고정한다. */
+select.redaction-list-cell,
+.redaction-list-cell-input {
+  font: inherit;
+  color: #0f0f0f;
+  background: #ffffff;
+  border: 1px solid var(--focus-color);
+  border-radius: 2px;
+  padding: 0 2px;
+}
+
+select.redaction-list-cell-category {
+  flex: 0 0 30%;
+}

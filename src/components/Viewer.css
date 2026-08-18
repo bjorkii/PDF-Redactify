@@ -1,0 +1,103 @@
+.viewer {
+  position: relative;
+  flex: 1;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  background: var(--viewer-bg);
+  overflow: hidden;
+  /* SIDE-05: 다른 사이드바처럼 .focus-region(outline: 2px solid transparent)를
+     쓰지 않고 아래 .viewer-focus-overlay만으로 포커스 표시를 하기로
+     했는데, 그러다 보니 .viewer 자신의 기본(브라우저 네이티브) 포커스
+     링을 한 번도 꺼둔 적이 없었다. tabIndex가 있는 요소라 포커스를 받으면
+     이 네이티브 링(둥근 모서리, --focus-color와 무관하게 항상 파랑)이
+     오버레이 바깥에 겹쳐 보였다 — "최초 구동 시 사용자 설정색 테두리
+     바깥으로 파란 테두리가 함께 보인다"는 재현 보고의 원인. 오버레이가
+     이미 시각적 표시를 전담하므로 네이티브 링은 완전히 끈다.
+  */
+  outline: none;
+}
+
+/* SIDE-05(§7.4): 포커스 테두리 — Viewer.tsx의 주석 참고(outline 대신 오버레이). */
+.viewer-focus-overlay {
+  position: absolute;
+  inset: 0;
+  box-sizing: border-box;
+  border: 2px solid transparent;
+  pointer-events: none;
+}
+
+.viewer.viewer-domain-focused .viewer-focus-overlay {
+  border-color: var(--focus-color);
+}
+
+.viewer-placeholder {
+  margin: auto;
+  color: var(--muted-fg);
+}
+
+.paginated-view {
+  flex: 1;
+  display: flex;
+  /* align-items/justify-content:center 대신 자식의 margin:auto로 가운데
+     정렬한다 — 확대(zoomScale, PDF-04)로 페이지가 뷰어보다 커지면
+     스크롤로 봐야 하는데, flex의 align/justify-content:center는 넘치는
+     콘텐츠 쪽을 스크롤로 못 보게 잘라버리는 알려진 문제가 있다(WebKit
+     포함). margin:auto는 안 넘칠 땐 똑같이 가운데 정렬하면서, 넘치면
+     자연스럽게 스크롤 가능한 쪽으로 동작한다. */
+  overflow: auto;
+  outline: none;
+  /* PaginatedView.tsx가 경계에서 일부러 preventDefault를 미루는 동안
+     (러버밴드 바운스를 보여주려고) 그 오버스크롤이 상위(뷰어/앱 전체)로
+     새서 엉뚱한 곳까지 흔들리지 않게 이 요소 안에 가둔다. */
+  overscroll-behavior: contain;
+}
+
+.viewer-page-wrapper {
+  position: relative;
+  margin: auto;
+  /* bbox 드래그 생성/이동/리사이즈 중 브라우저 기본 텍스트 선택이 함께
+     일어나지 않게 한다(PaginatedView.tsx의 preventDefault와 이중 방어). */
+  user-select: none;
+  -webkit-user-select: none;
+  /* inline-flex는 기본 align-items:stretch가 자식 img의 auto 높이를
+     덮어써 비율을 깨뜨릴 수 있어(특히 WebKit) 일부러 피한다. inline-block은
+     내용(이미지) 크기에 그대로 맞춰지므로 왜곡 없이 자연스럽게 줄어든다. */
+  display: inline-block;
+  line-height: 0;
+}
+
+.viewer-page {
+  /* max-width/max-height:100%를 걸지 않는다 — 확대(zoomScale)로 실제
+     렌더링된 비트맵이 뷰어보다 커져도 여기서 다시 뷰어 폭에 맞춰
+     축소해버리면, 확대는 뷰어에 "맞는 범위 안에서만" 되는 것처럼
+     보인다(정확히 이 문제로 보고됨). 페이지 크기는 render_page의
+     zoomScale이 유일한 권한을 갖고, 뷰어보다 커지면 스크롤로 본다.
+     원본 픽셀 비율 그대로 표시되므로 왜곡도 없다. */
+  display: block;
+  width: auto;
+  height: auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  /* B-3(DIST-05): 이미지 드래그(→스냅샷 드래그) 차단(뷰어 onDragStart와 이중 방어). */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* EDIT-01(§6.3.2): 드래그 중 실시간 가이드 테두리. */
+.redaction-drag-guide {
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  border: 1px dashed var(--focus-color);
+  background: rgba(57, 108, 216, 0.15);
+}
+
+/* EDIT-13: alt-drag 러버밴드(그룹선택) 사각형 — 생성 가이드와 구분되게
+   점선 간격을 촘촘히, 배경을 더 옅게 둔다. */
+.redaction-marquee {
+  position: absolute;
+  pointer-events: none;
+  box-sizing: border-box;
+  border: 1px dashed var(--focus-color);
+  background: rgba(57, 108, 216, 0.08);
+}

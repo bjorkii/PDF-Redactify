@@ -1,0 +1,26 @@
+.truncated-text {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+/* UI-04(B-4): body로 portal되는 fixed 툴팁 — 좌표(top/left/right)는 인라인.
+   overflow:hidden 조상(셀·목록 스크롤)에 안 잘리도록 body 최상위에 띄운다. */
+.truncated-text-tooltip {
+  position: fixed;
+  max-width: min(400px, 90vw);
+  padding: 4px 8px;
+  background: #222;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 0.85em;
+  white-space: normal;
+  word-break: break-word;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}

@@ -1,0 +1,51 @@
+.scroll-view {
+  flex: 1;
+  /* 세로는 물론 가로도 스크롤 허용 — 확대(zoomScale)하면 페이지가 뷰어보다
+     커질 수 있다(PaginatedView와 동일하게 폭도 zoomScale을 따름). */
+  overflow: auto;
+  /* 방향키 페이지 이동을 위해 tabIndex를 갖는데, .viewer에서 겪었던 것과
+     같은 문제(브라우저 네이티브 기본 포커스 링이 --focus-color와 별개로
+     그려짐)를 여기서도 미리 방지한다 — 포커스 표시는 .viewer의
+     .viewer-focus-overlay가 전담한다. */
+  outline: none;
+}
+
+.scroll-view-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  /* 인접 페이지끼리 서로 붙어 한 덩어리처럼 보이지 않도록 위아래 여백을
+     둔다(사용자 피드백 — 다른 뷰어/워드프로세서처럼 살짝 띄움). */
+  padding: 12px 0;
+  box-sizing: border-box;
+}
+
+.page-thumb-wrapper,
+.page-thumb-placeholder {
+  /* justify-content:center 대신 자식에 margin:auto를 준다 — flex의
+     align/justify-content:center는 넘치는 콘텐츠 쪽을 스크롤로 못 보게
+     자르는 알려진 문제가 있다(확대해서 페이지가 뷰어보다 커질 때). */
+  margin: auto;
+  flex-shrink: 0;
+}
+
+.page-thumb-wrapper {
+  position: relative;
+}
+
+.page-thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  /* B-3(DIST-05): 스크롤 모드 페이지 이미지 드래그(→스냅샷 드래그) 차단. */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+.page-thumb-placeholder {
+  background: var(--panel-bg);
+  border: 1px dashed var(--border-color);
+}

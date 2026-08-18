@@ -1,0 +1,105 @@
+.exclusion-zone-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* 제외 영역(회색 음영) — 시각적 표시만, 클릭을 가로채지 않는다. */
+.exclusion-zone-band {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.35);
+  pointer-events: none;
+}
+
+.exclusion-zone-band-top {
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.exclusion-zone-band-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.exclusion-zone-band-left {
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.exclusion-zone-band-right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+/* 드래그 가능한 가이드 바 — 경계선 자체는 얇게, 실제 클릭/드래그 히트
+   영역은 그보다 넓게(±5px) 잡아서 정확히 선 위를 잡지 않아도 끌리게 한다. */
+.exclusion-zone-guide {
+  position: absolute;
+  pointer-events: auto;
+  background: transparent;
+}
+
+/* DET-07: 가이드선 색상은 사용자가 색상 설정에서 바꿀 수 있다(기본값
+   yellow) — App.tsx가 colorSettings.exclusion_guide_color를 이 CSS
+   변수로 동기화한다. 얇은 회색(2px) 선은 페이지 배경(연한 회색)과 대비가
+   약해 잘 안 보인다는 재현 보고로 굵기를 키우고(2px→4px), 기본색을 눈에
+   띄는 노랑으로 바꾸고, 깜빡임(blink) 효과를 추가해 가만히 있어도 시선을
+   끌게 했다. */
+.exclusion-zone-guide::before {
+  content: "";
+  position: absolute;
+  background: var(--exclusion-guide-color, #ffcc00);
+  animation: exclusion-zone-guide-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes exclusion-zone-guide-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.exclusion-zone-guide-horizontal {
+  left: 0;
+  right: 0;
+  height: 10px;
+  margin-top: -5px;
+  cursor: row-resize;
+}
+
+.exclusion-zone-guide-horizontal::before {
+  left: 0;
+  right: 0;
+  top: 3px;
+  height: 4px;
+}
+
+.exclusion-zone-guide-vertical {
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  margin-left: -5px;
+  cursor: col-resize;
+}
+
+.exclusion-zone-guide-vertical::before {
+  top: 0;
+  bottom: 0;
+  left: 3px;
+  width: 4px;
+}
+
+/* EDIT-14: bbox 드래그가 제외영역에 닿는 동안 보여주는 읽기전용 바 — 주의를
+   끌도록 가이드 강조색으로 잠깐 점멸시킨다. */
+.exclusion-zone-overlay-contact .exclusion-zone-band {
+  background: var(--exclusion-guide-color, #ffcc00);
+  opacity: 0.4;
+  animation: exclusion-zone-guide-blink 0.6s ease-in-out infinite;
+}

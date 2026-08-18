@@ -1,0 +1,106 @@
+.floating-panel {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+  z-index: 100;
+  overflow: hidden;
+}
+
+.floating-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 8px;
+  background: var(--border-color);
+  cursor: move;
+  flex-shrink: 0;
+}
+
+.floating-panel-title {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* SIDE-04 + 사용자 요청: 몸통은 스스로 스크롤하지 않고(overflow: hidden)
+   세로 플렉스로 자식을 배치한다 — 그래야 안의 블랙마킹 목록(.redaction-list의
+   flex:1 목록 스크롤)만 스크롤되고, 그 위의 목록 헤더(삭제/제외 버튼줄·컬럼
+   헤더)는 스크롤/리사이즈와 무관하게 항상 상단에 고정된다. 예전엔 body가
+   overflow:auto라 헤더까지 함께 스크롤돼, 스크롤을 올려야 헤더가 나타났다. */
+.floating-panel-body {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* SIDE-10: 4변 + 4모서리 리사이즈 핸들. 모서리(square)가 변(edge)보다
+   위에 오도록 z-index를 나눠, 모서리 근처에서 대각 리사이즈가 우선한다. */
+.floating-panel-resize-handle {
+  position: absolute;
+  z-index: 1;
+}
+
+/* 변 핸들: 두께 6px 띠 */
+.floating-panel-resize-n,
+.floating-panel-resize-s {
+  left: 7px;
+  right: 7px;
+  height: 6px;
+  cursor: ns-resize;
+}
+.floating-panel-resize-n {
+  top: 0;
+}
+.floating-panel-resize-s {
+  bottom: 0;
+}
+
+.floating-panel-resize-e,
+.floating-panel-resize-w {
+  top: 7px;
+  bottom: 7px;
+  width: 6px;
+  cursor: ew-resize;
+}
+.floating-panel-resize-e {
+  right: 0;
+}
+.floating-panel-resize-w {
+  left: 0;
+}
+
+/* 모서리 핸들: 14px 정사각형, 변 핸들 위에 표시 */
+.floating-panel-resize-ne,
+.floating-panel-resize-nw,
+.floating-panel-resize-se,
+.floating-panel-resize-sw {
+  width: 14px;
+  height: 14px;
+  z-index: 2;
+}
+.floating-panel-resize-ne {
+  top: 0;
+  right: 0;
+  cursor: nesw-resize;
+}
+.floating-panel-resize-nw {
+  top: 0;
+  left: 0;
+  cursor: nwse-resize;
+}
+.floating-panel-resize-se {
+  bottom: 0;
+  right: 0;
+  cursor: nwse-resize;
+}
+.floating-panel-resize-sw {
+  bottom: 0;
+  left: 0;
+  cursor: nesw-resize;
+}

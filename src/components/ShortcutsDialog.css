@@ -1,0 +1,120 @@
+.shortcuts-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.shortcuts-dialog {
+  width: 780px;
+  max-width: 94vw;
+  max-height: 84vh;
+  overflow-y: auto;
+  padding: 18px 22px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background: var(--panel-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.shortcuts-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+.shortcuts-dialog-header button {
+  padding: 4px 12px;
+  font-size: 0.85em;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  cursor: pointer;
+}
+
+/* 어수선함 완화: 섹션을 2열 그리드로 배치해 세로 길이를 줄인다. */
+.shortcuts-dialog-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 28px;
+}
+
+.shortcuts-dialog-section {
+  break-inside: avoid;
+  margin-bottom: 10px;
+}
+
+/* 카테고리명: 작고 muted였던 것을 또렷하게 — 강조색 + 하단 경계선. */
+.shortcuts-dialog-section h3 {
+  font-size: 0.98em;
+  font-weight: 600;
+  color: var(--fg, inherit);
+  margin: 8px 0 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.shortcuts-dialog-section ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.shortcuts-dialog-section li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.shortcuts-dialog-action {
+  font-size: 0.9em;
+  line-height: 1.35;
+  flex: 1;
+  min-width: 0;
+}
+
+.shortcuts-dialog-keys {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+  max-width: 55%;
+}
+
+/* 키 조합 구분자(+, /, 또는)는 칩이 아니라 옅은 텍스트로. */
+.shortcuts-dialog-sep {
+  font-size: 0.78em;
+  color: var(--muted-fg, #999);
+  padding: 0 1px;
+}
+
+/* 키는 회색 텍스트 대신 또렷한 칩으로. */
+.shortcuts-dialog-keys kbd {
+  font-family: var(--mono-font, ui-monospace, SFMono-Regular, Menlo, monospace);
+  font-size: 0.78em;
+  line-height: 1.5;
+  white-space: nowrap;
+  padding: 1px 7px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  background: var(--viewer-bg, rgba(127, 127, 127, 0.12));
+  color: var(--fg, inherit);
+}
+
+.shortcuts-dialog-footnote {
+  margin: 6px 0 0;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+  font-size: 0.8em;
+  color: var(--muted-fg, #888);
+}

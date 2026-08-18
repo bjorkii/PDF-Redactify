@@ -1,0 +1,72 @@
+# SPEC §10 / DIST-01~03: 3종 배포판(Apple Silicon macOS · Intel macOS · Windows) 매트릭스 빌드.
+# 태그(vX.Y.Z) push 또는 수동 실행 시, 각 OS 러너에서 pdfium을 받아 Tauri 번들을 만들고
+# GitHub 릴리스(초안)에 아티팩트를 올린다. 미서명 배포이므로 첫 실행 안내(§10)는
+# 릴리스 노트/README에 포함한다.
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch: # 태그 없이 수동으로도 돌려볼 수 있게(초안 릴리스로 생성).
+
+permissions:
+  contents: write # 릴리스 생성/아티팩트 업로드에 필요.
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Apple Silicon (aarch64) — macos-14 러너가 arm64 네이티브.
+          - platform: macos-14
+            rust_target: aarch64-apple-darwin
+            args: "--target aarch64-apple-darwin --bundles app,dmg"
+          # Intel (x86_64) — macos-13 러너가 x64 네이티브.
+          - platform: macos-13
+            rust_target: x86_64-apple-darwin
+            args: "--target x86_64-apple-darwin --bundles app,dmg"
+          # Windows — NSIS 인스톨러(§10).
+          - platform: windows-latest
+            rust_target: x86_64-pc-windows-msvc
+            args: "--bundles nsis"
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_target }}
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: "./src-tauri -> target"
+
+      - name: Install frontend deps
+        run: npm ci
+
+      - name: Fetch pdfium native library
+        run: npm run setup:pdfium
+
+      # tauri-action: 프론트 빌드(beforeBuildCommand) → cargo 번들 → 릴리스 초안에 업로드.
+      # 미서명(ad-hoc) 배포 — Apple 개발자계정/서명 시크릿을 설정하지 않는다(§10).
+      - name: Build & release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_type == 'tag' && github.ref_name || format('v0.0.0-dev-{0}', github.run_number) }}
+          releaseName: "PDF-Redactify ${{ github.ref_type == 'tag' && github.ref_name || 'dev build' }}"
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}

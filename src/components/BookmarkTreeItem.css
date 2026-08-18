@@ -1,0 +1,51 @@
+.bookmark-tree,
+.bookmark-node-children {
+  list-style: none;
+  margin: 0;
+  padding-left: 14px;
+}
+
+.bookmark-tree {
+  padding: 4px 0;
+}
+
+.bookmark-node-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 6px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.bookmark-node-row:hover {
+  background: var(--viewer-bg);
+}
+
+/* BM-02(§6.2): 현재 페이지에 해당하는 노드 선택 표시(음영+흰 폰트). */
+.bookmark-node-row.active,
+.bookmark-node-row.active:hover {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+}
+
+.bookmark-node-toggle {
+  width: 1.2em;
+  height: 1.2em;
+  padding: 0;
+  border: none;
+  background: transparent;
+  font-size: 0.7em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.bookmark-node-toggle-placeholder {
+  width: 1.2em;
+  flex-shrink: 0;
+}
+
+.bookmark-node-title {
+  flex: 1;
+  min-width: 0;
+}

@@ -1,0 +1,53 @@
+/* UI-02(§7.1): 창 폭이 줄어들면 오른쪽(뒤쪽) 아이콘부터 다음 줄로 왼쪽
+   정렬 배치된다(사용자 요청) — flex-wrap만으로 이 동작이 자연히 나온다:
+   한 줄에 다 안 들어가면 순서대로 채우다 남는(=뒤쪽/오른쪽) 항목들이
+   다음 줄로 넘어가고, 각 줄은 기본적으로 flex-start(왼쪽) 정렬이다.
+   flex-shrink:0(아래 button 규칙)도 함께 있어야 한다 — 안 그러면 줄바꿈
+   대신 아이콘 버튼 자체가 찌그러들어(찌그러듦으로 공간을 만들며) 절대
+   줄바꿈이 일어나지 않는다. */
+.toolbar {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--panel-bg);
+  flex-shrink: 0;
+  /* DET-OPT: 툴바에서 내려오는 옵션 드롭다운이 아래 형제인 뷰어(app-body) 뒤로
+     깔려 잘려 보이지 않도록, 툴바 스태킹을 본문 위로 올린다(다이얼로그 백드롭은
+     이보다 훨씬 높은 z-index라 영향 없음). */
+  position: relative;
+  z-index: 20;
+}
+
+.toolbar button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* 비활성 버튼(예: 스크롤 보기 모드에서 제외영역 토글, 검출 진행 중 검출 버튼)은
+   흐리게 + 클릭 불가 커서로 시각적으로 표시한다(§6.1 — 제외영역은 페이지네이션 전용). */
+.toolbar button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* DET-OPT: 자동검출 버튼 + 옵션 캐럿을 하나의 분할 버튼처럼 붙여 배치. */
+.toolbar-detect-split {
+  display: inline-flex;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+
+/* DET-07: 제외영역 설정 등 켜짐/꺼짐이 있는 토글 버튼이 지금 켜져 있음을
+   보여준다. */
+.toolbar button.active {
+  background: var(--selection-bg);
+  color: var(--selection-fg);
+  border-color: var(--selection-bg);
+}

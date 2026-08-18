@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Local test PDFs (large binaries, real PII — never publish)
+/pdf-samples/
+
+# pdfium native library (fetched via `npm run setup:pdfium`, not committed)
+/src-tauri/vendor/pdfium/
+
+# Internal planning/spec docs — kept local, not published yet.
+# (README.md: push after local cleanup. shortcuts.md: to be merged into README.
+#  SPEC/WBS/ISSUES: internal. ko-pii-*: internal planning.)
+/README.md
+/SPEC.md
+/WBS.md
+/ISSUES.md
+/shortcuts.md
+/ko-pii-rust-porting-plan.md

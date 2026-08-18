@@ -1,0 +1,11 @@
+/* UI-PROGRESS: 처리 중 전역 입력 차단 오버레이. 앱 전체를 덮되(inset:0), 상태바가
+   더 높은 z-index로 위에 그려져 중단 버튼은 살아 있다. 살짝 어둡게 + 대기 커서. */
+.busy-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  background: rgba(0, 0, 0, 0.08);
+  cursor: progress;
+  /* 모든 포인터 이벤트를 이 레이어가 흡수(기본값 auto지만 명시). */
+  pointer-events: auto;
+}

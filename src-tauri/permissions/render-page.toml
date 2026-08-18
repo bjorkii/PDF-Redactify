@@ -1,0 +1,11 @@
+# 앱 커맨드 권한(수기 작성). identifier는 kebab-case만 허용되므로 command 이름
+# (snake_case)과 별도로 관리한다.
+[[permission]]
+identifier = "allow-render-page"
+description = "Enables the render_page command without any pre-configured scope."
+commands.allow = ["render_page"]
+
+[[permission]]
+identifier = "deny-render-page"
+description = "Denies the render_page command without any pre-configured scope."
+commands.deny = ["render_page"]

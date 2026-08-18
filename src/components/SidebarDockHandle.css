@@ -1,0 +1,15 @@
+/* SIDE-02: 완전히 투명하면(예전 상태) 발견할 방법이 없어 드래그 기능 자체를
+   테스트할 수 없었다 — 평소에도 은은하게 보이게 하고, hover/active에서
+   또렷해지게 한다. */
+.sidebar-dock-handle {
+  width: 6px;
+  flex-shrink: 0;
+  cursor: col-resize;
+  background: var(--border-color);
+  opacity: 0.5;
+}
+
+.sidebar-dock-handle:hover,
+.sidebar-dock-handle:active {
+  opacity: 1;
+}

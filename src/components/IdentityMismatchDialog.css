@@ -1,0 +1,47 @@
+.identity-mismatch-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.identity-mismatch-dialog {
+  max-width: 420px;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: var(--panel-bg);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.identity-mismatch-message {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.identity-mismatch-detail {
+  margin: 0 0 16px;
+  font-size: 0.85rem;
+  color: var(--muted-fg);
+}
+
+.identity-mismatch-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.identity-mismatch-actions button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  cursor: pointer;
+}
+
+.identity-mismatch-actions button:hover {
+  border-color: var(--focus-color);
+}

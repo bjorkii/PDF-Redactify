@@ -1,0 +1,16 @@
+.side-panel-stack {
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.side-panel-stack .sidebar {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.side-panel-stack .sidebar:not(:last-child) {
+  border-bottom: 1px solid var(--border-color);
+}

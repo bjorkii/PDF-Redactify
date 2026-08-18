@@ -1,0 +1,5 @@
+# STATE-01: ts-rs가 Rust 스키마 타입에서 생성하는 TS 바인딩의 출력 위치.
+# `cargo test`(정확히는 각 #[ts(export)] 타입마다 생성되는 export_bindings_* 테스트)
+# 실행 시 이 경로(src-tauri 기준 상대)로 .ts 파일이 쓰여진다.
+[env]
+TS_RS_EXPORT_DIR = { value = "../src/types/generated", relative = true }

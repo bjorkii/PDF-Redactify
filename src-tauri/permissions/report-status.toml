@@ -1,0 +1,11 @@
+# 앱 커맨드 권한(수기 작성). identifier는 kebab-case만 허용되므로 command 이름
+# (snake_case)과 별도로 관리한다. 자동 생성이 아니므로 직접 수정 가능.
+[[permission]]
+identifier = "allow-report-status"
+description = "Enables the report_status command without any pre-configured scope."
+commands.allow = ["report_status"]
+
+[[permission]]
+identifier = "deny-report-status"
+description = "Denies the report_status command without any pre-configured scope."
+commands.deny = ["report_status"]

@@ -1,0 +1,11 @@
+# 앱 커맨드 권한(수기 작성). identifier는 kebab-case만 허용되므로 command 이름
+# (snake_case)과 별도로 관리한다.
+[[permission]]
+identifier = "allow-import-review-items"
+description = "Enables the import_review_items command without any pre-configured scope."
+commands.allow = ["import_review_items"]
+
+[[permission]]
+identifier = "deny-import-review-items"
+description = "Denies the import_review_items command without any pre-configured scope."
+commands.deny = ["import_review_items"]

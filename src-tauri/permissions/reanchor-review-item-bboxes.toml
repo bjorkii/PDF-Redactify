@@ -1,0 +1,11 @@
+# 앱 커맨드 권한(수기 작성). identifier는 kebab-case만 허용되므로 command 이름
+# (snake_case)과 별도로 관리한다.
+[[permission]]
+identifier = "allow-reanchor-review-item-bboxes"
+description = "Enables the reanchor_review_item_bboxes command without any pre-configured scope."
+commands.allow = ["reanchor_review_item_bboxes"]
+
+[[permission]]
+identifier = "deny-reanchor-review-item-bboxes"
+description = "Denies the reanchor_review_item_bboxes command without any pre-configured scope."
+commands.deny = ["reanchor_review_item_bboxes"]

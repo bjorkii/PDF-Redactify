@@ -1,0 +1,17 @@
+.dock-guide-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: rgba(57, 108, 216, 0.25);
+  border: 2px dashed #396cd8;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* SIDE-03: 삽입형 가이드(insertOuter/insertInner)는 얇은 스트립이라
+   더 진한 색으로 눈에 띄게 표시한다(가로 나란히 배치를 암시). */
+.dock-guide-insertOuter,
+.dock-guide-insertInner {
+  background: rgba(57, 108, 216, 0.5);
+  border-style: solid;
+}

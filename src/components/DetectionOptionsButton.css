@@ -1,0 +1,28 @@
+/* DET-OPT: 자동검출 버튼 오른쪽에 붙는 옵션 캐럿(팝오버 anchor). */
+.detection-options {
+  position: relative;
+  display: inline-flex;
+}
+
+/* 자동검출 버튼 오른쪽에 붙는 별도 세그먼트 — 왼쪽 구분선으로 아이콘과 영역을
+   나누고, 좁은 폭의 캐럿만 차지한다(아이콘 경계에 겹치지 않게 음수 margin 제거). */
+.detection-options-trigger {
+  padding: 0 5px;
+  border: none;
+  border-left: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--muted-fg);
+  font-size: 0.7em;
+  line-height: 1;
+  cursor: pointer;
+  align-self: stretch;
+}
+
+.detection-options-trigger:hover:not(:disabled) {
+  color: inherit;
+}
+
+.detection-options-trigger:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

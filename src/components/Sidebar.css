@@ -1,0 +1,67 @@
+.sidebar {
+  /* SIDE-02: 실제 폭은 SidebarShell이 store(사이드바별 width)로 인라인
+     스타일을 얹어 덮어쓴다 — 여기 값은 그 전까지의 기본값일 뿐. */
+  width: 240px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  background: var(--panel-bg);
+}
+
+.sidebar.left {
+  border-right: 1px solid var(--border-color);
+}
+
+.sidebar.right {
+  border-left: 1px solid var(--border-color);
+}
+
+.sidebar-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  min-width: 0;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px;
+  font-weight: 600;
+  border-bottom: 1px solid var(--border-color);
+  /* 플로팅(.floating-panel-body가 세로 플렉스)일 때 목록이 길어도 이 헤더가
+     눌려 사라지지 않도록 고정 높이를 유지한다. */
+  flex-shrink: 0;
+}
+
+/* 사용자 요청: 플로팅 폭을 넓혀도 아이콘들이 균형분배(space-between)로 흩어지지
+   않고, 제목만 왼쪽에 두고 아이콘 그룹은 오른쪽으로 모아 정렬한다 — 제목
+   다음의 첫 자식(버튼 또는 그 앞의 draggable 핸들)에 margin-left:auto를 줘
+   나머지를 오른쪽으로 민다. */
+.sidebar-header > span:first-child {
+  margin-right: auto;
+}
+
+/* 기본 button 패딩(0.4em 0.8em, App.css)을 그대로 쓰면 아이콘 버튼이 이
+   텍스트 한 줄짜리 이름표시줄보다 눈에 띄게 두꺼워진다(블랙마킹 목록의
+   핀 버튼 때문에 그 이름표시줄만 북마크 쪽보다 두꺼워 보인다는 재현
+   보고) — 아이콘 버튼은 여기서 여백을 더 좁게 눌러준다. */
+.sidebar-header button {
+  padding: 2px 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SIDE-02/03: 얇은 핸들만으로는 찾기 어렵다는 피드백에 따라 이름표시줄
+   전체도 도킹 드래그 핸들로 쓴다(버튼 등 자체 클릭 요소는 각자 동작). */
+.sidebar-header-draggable {
+  cursor: move;
+}
+
+.sidebar-body {
+  padding: 8px;
+  color: var(--muted-fg);
+}
