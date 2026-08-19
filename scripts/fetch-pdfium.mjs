@@ -17,11 +17,17 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = join(__dirname, "..");
 const VENDOR_ROOT = join(REPO_ROOT, "src-tauri", "vendor", "pdfium");
 
+// bblanchon 아카이브의 라이브러리 위치: mac/linux는 `lib/`(libpdfium.dylib/.so),
+// **Windows는 `bin/pdfium.dll`**(그 안 `lib/`엔 임포트 라이브러리 pdfium.dll.lib만 있음).
+// 아래 srcDirs 우선순위로 찾는다(레이아웃이 바뀌어도 견고하게).
 const TARGETS = {
   "darwin": { asset: "pdfium-mac-univ.tgz", dir: "macos-universal", lib: "libpdfium.dylib" },
   "win32-x64": { asset: "pdfium-win-x64.tgz", dir: "windows-x64", lib: "pdfium.dll" },
   "win32-arm64": { asset: "pdfium-win-arm64.tgz", dir: "windows-arm64", lib: "pdfium.dll" },
 };
+
+/** 아카이브 안에서 실제 런타임 라이브러리를 찾을 후보 하위폴더(우선순위). */
+const LIB_SRC_DIRS = ["bin", "lib", "."];
 
 function resolveTarget() {
   const key = process.platform === "darwin" ? "darwin" : `${process.platform}-${process.arch}`;
@@ -60,9 +66,11 @@ async function main() {
   mkdirSync(extractDir, { recursive: true });
   execFileSync("tar", ["-xzf", archivePath, "-C", extractDir]);
 
-  const srcLib = join(extractDir, "lib", target.lib);
-  if (!existsSync(srcLib)) {
-    throw new Error(`압축 해제 결과에서 라이브러리를 찾을 수 없습니다: ${srcLib}`);
+  const srcLib = LIB_SRC_DIRS.map((sub) => join(extractDir, sub, target.lib)).find((p) => existsSync(p));
+  if (!srcLib) {
+    throw new Error(
+      `압축 해제 결과에서 ${target.lib}을(를) 찾을 수 없습니다(확인한 폴더: ${LIB_SRC_DIRS.join(", ")}) — ${extractDir}`,
+    );
   }
   copyFileSync(srcLib, destLib);
 
