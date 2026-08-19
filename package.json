@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "tauri": "tauri",
     "setup:pdfium": "node scripts/fetch-pdfium.mjs",
+    "gen:notices": "node scripts/gen-third-party-notices.mjs",
     "test": "vitest run"
   },
   "dependencies": {

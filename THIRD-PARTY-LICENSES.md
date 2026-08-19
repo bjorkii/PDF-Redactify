@@ -1,9 +1,40 @@
 # 서드파티 라이선스 및 출처 표기 (Third-Party Licenses & Attributions)
 
-이 프로젝트의 자동검출 엔진(`src-tauri/src/detection.rs`)은 아래 오픈소스의
-정규식·체크섬·문맥(anchor) 룰 일부를 **참고·재구현**했습니다. 코드를 직접 복사하지
-않고 알고리즘을 참고한 부분이 대부분이나, 고지 의무 준수와 원저작자 존중을 위해
-아래에 출처를 명시합니다.
+이 문서는 PDF-Redactify가 사용·재배포하는 서드파티 구성요소의 출처·라이선스를
+정리합니다. 크게 두 종류입니다.
+
+1. **바이너리로 재배포하는 구성요소** — 특히 PDF 엔진 **pdfium**. 배포물에 실제로
+   포함되므로 라이선스 고지가 배포물에 **동반**되어야 합니다.
+2. **알고리즘 참고·재구현** — 자동검출 엔진(`src-tauri/src/detection.rs`)이 ko-pii의
+   규칙 일부를 참고·재구현. 코드 직접 복사가 아닌 참고가 대부분이나 원저작자 존중을
+   위해 명시합니다.
+
+> **배포물 동봉 고지:** 실제 배포 앱에는 pdfium 및 전체 Rust/npm 의존성 라이선스
+> 전문을 담은 파일이 리소스로 함께 번들됩니다 —
+> `src-tauri/licenses/`(`THIRD-PARTY-NOTICES.txt`, `pdfium-LICENSE.txt`,
+> `pdfium-binaries-LICENSE.txt`). 재생성: `npm run gen:notices`.
+
+---
+
+## pdfium (PDF 렌더·좌표·저장 엔진)
+
+- **pdfium 자체:** Copyright The PDFium Authors — **BSD-3-Clause**(일부 파일 Apache-2.0).
+  전문: `src-tauri/licenses/pdfium-LICENSE.txt`.
+- **배포 바이너리 패키징:** [bblanchon/pdfium-binaries](https://github.com/bblanchon/pdfium-binaries)
+  — Copyright Benoit Blanchon, **MIT**(빌드 스크립트/패키징). 전문:
+  `src-tauri/licenses/pdfium-binaries-LICENSE.txt`.
+- **활용:** `pdfium-render`(BSD-3-Clause) 크레이트를 통해 pdfium 동적 라이브러리를
+  로드해 렌더링·텍스트/좌표 추출·블랙마킹 반영에 사용. 라이브러리 바이너리는
+  `npm run setup:pdfium`으로 받아 배포 번들에 리소스로 포함됨.
+
+---
+
+## Rust / npm 의존성 (전체)
+
+앱 바이너리에 컴파일되어 재배포되는 Rust 크레이트(≈518개)와 프론트 런타임 npm
+패키지의 라이선스(대부분 MIT·Apache-2.0·BSD·ISC·Zlib 등 허용형)는
+`src-tauri/licenses/THIRD-PARTY-NOTICES.txt`에 이름·버전·SPDX·라이선스 전문으로
+정리되어 있으며 배포물에 동봉됩니다.
 
 ---
 
