@@ -30,9 +30,7 @@ dist-ssr
 /src-tauri/vendor/pdfium/
 
 # Internal planning/spec docs — kept local, not published yet.
-# (README.md: push after local cleanup. shortcuts.md: to be merged into README.
-#  SPEC/WBS/ISSUES: internal. ko-pii-*: internal planning.)
-/README.md
+# (shortcuts.md: merged into README. SPEC/WBS/ISSUES: internal. ko-pii-*: internal planning.)
 /SPEC.md
 /WBS.md
 /ISSUES.md
