@@ -22,11 +22,11 @@ jobs:
           # Apple Silicon (aarch64) — macos-14 러너가 arm64 네이티브.
           - platform: macos-14
             rust_target: aarch64-apple-darwin
-            args: "--target aarch64-apple-darwin --bundles app,dmg"
+            args: "--target aarch64-apple-darwin --bundles dmg"
           # Intel (x86_64) — macos-13 러너가 x64 네이티브.
           - platform: macos-13
             rust_target: x86_64-apple-darwin
-            args: "--target x86_64-apple-darwin --bundles app,dmg"
+            args: "--target x86_64-apple-darwin --bundles dmg"
           # Windows — NSIS 인스톨러(§10).
           - platform: windows-latest
             rust_target: x86_64-pc-windows-msvc
